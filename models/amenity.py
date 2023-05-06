@@ -1,16 +1,14 @@
 #!/usr/bin/python3
-"""Defines Amnity class for AirBnB clone"""
+""" State Module for HBNB project """
 from models.base_model import BaseModel, Base
+from models import storage_type
 from sqlalchemy import Column, String
-from sqlalchemy.orm import relationship
-from models.place import place_amenity
 
 
 class Amenity(BaseModel, Base):
-    """Define place amenities in an AirBnB
-
-    Attr:
-        name(str): name of amenity
-    """
+    '''amenity class'''
     __tablename__ = 'amenities'
-    name = Column(String(128), nullable=False)
+    if storage_type == 'db':
+        name = Column(String(128), nullable=False)
+    else:
+        name = ""

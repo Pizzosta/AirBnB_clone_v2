@@ -1,39 +1,30 @@
 #!/usr/bin/python3
-"""Define Place class for Airbnb console"""
-from sqlalchemy.ext.declarative import declarative_base
-from models import storage_type
+""" Place Module for HBNB project """
+
+from models.amenity import Amenity
+from models.review import Review
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from models import storage_type
+from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from sqlalchemy.sql.schema import Table
 from sqlalchemy.orm import relationship
-from models.review import Review
-from models.amenity import Amenity
 
 
-place_amenity = Table('place_amenity', Base.metadata,
-                      Column('place.id', String(60),
-                             ForeignKey('places.id'), primary_key=True,
-                             nullable=False),
-                      Column('amenity_id', String(60),
-                             ForeignKey('amenities.id'), primary_key=True,
-                             nullable=False))
+if storage_type == 'db':
+    place_amenity = Table('place_amenity', Base.metadata,
+                          Column('place_id', String(60),
+                                 ForeignKey('places.id'),
+                                 primary_key=True,
+                                 nullable=False),
+                          Column('amenity_id', String(60),
+                                 ForeignKey('amenities.id'),
+                                 primary_key=True,
+                                 nullable=False)
+                          )
 
 
 class Place(BaseModel, Base):
-    """defines place attributes for user
-
-    city_id(str): id of city where place is located
-    user_id(str): id of user
-    name (str): name of place
-    description(str): brief description of place
-    number_rooms(int): number of rooms in place
-    number_bathrooms(int): number of bathrooms in place
-    max_guest(int): maximum number of guests place can accommodate
-    price_by_night(int): unit price of place per night
-    latitude(float): GPS coordinates of place
-    longitude(float): GPS coordinates of place
-    amenity_ids(list): list of all amenity ids generated
-    """
+    """ A place to stay """
     __tablename__ = 'places'
     if storage_type == 'db':
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
