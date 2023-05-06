@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 from models.place import Place
 from models.review import Review
+from models import storage_type
 
 
 class User(BaseModel, Base):
