@@ -24,6 +24,12 @@ class test_fileStorage(unittest.TestCase):
             os.remove('file.json')
         except Exception:
             pass
+    
+    def test_pep8_FileStorage(self):
+        """Tests pep8 style"""
+        style = pep8.StyleGuide(quiet=True)
+        p = style.check_files(['models/engine/file_storage.py'])
+        self.assertEqual(p.total_errors, 0, "fix pep8")
 
     def test_obj_list_empty(self):
         """ __objects is initially empty """
@@ -100,7 +106,6 @@ class test_fileStorage(unittest.TestCase):
     def test_key_format(self):
         """ Key is properly formatted """
         new = BaseModel()
-        new.save()
         _id = new.to_dict()['id']
         for key in storage.all().keys():
             temp = key
