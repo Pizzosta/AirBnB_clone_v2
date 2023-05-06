@@ -58,7 +58,14 @@ class DBStorage:
 
     def new(self, obj):
         """Add object to current db session"""
-        self.__session.add(obj)
+        if obj is not None:
+            try:
+                self.__session.add(obj)
+                self.__session.flush()
+                self.__session.refresh(obj)
+            except Exception as ex:
+                self.__session.rollback()
+                raise ex
 
     def save(self):
         """Commit all changes in current db session"""
@@ -67,7 +74,8 @@ class DBStorage:
     def delete(self, obj=None):
         """Delete obj from current db session if not none"""
         if obj is not None:
-            self.__session.delete(obj)
+            self.__session.query(type(obj)).filter(
+                type(obj).id == obj.id).delete()
 
     def reload(self):
         """creates all tables in the db"""
@@ -77,5 +85,5 @@ class DBStorage:
         self.__session = scoped_session(session_factory)()
 
     def close(self):
-        """Remove session"""
+        """closes the working SQLAlchemy session"""
         self.__session.remove()
