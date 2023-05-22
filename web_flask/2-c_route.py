@@ -7,7 +7,7 @@ Routes:
     /hbnb: Displays 'HBNB'
     /c/<text>: Displays “C ” followed by the value of the <text> variable
 """
-from flask import Flask, escape
+from flask import Flask
 app = Flask(__name__)
 
 
